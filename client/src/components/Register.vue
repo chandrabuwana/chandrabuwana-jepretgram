@@ -1,22 +1,19 @@
 <template>
-<div>
-  <h1>halo</h1>
-  <form>
+  <div>
+    <form>
     <div class="box">
     <h1>Dashboard</h1>
 
-    <input v-model="login.username" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" />
+    <input v-model="register.username" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" placeholder="username"/>
       
-    <input v-model="login.password" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" />
+    <input v-model="register.password" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" placeholder="Paswrosd" />
+    
+    <input v-model="register.name" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" placeholder="name"/>
       
-    <a><div v-on:click.prevent="logIn()" class="btn">Sign In</div></a> 
-    <a><div class="btn"> <router-link v-bind:to="'register'"> Sign In</router-link></div></a>
-
-     </div>
+    <a><div v-on:click.prevent="registers()" class="btn">Register</div></a> 
+    </div>
     </form>
-</div>
-
-  
+  </div>
 </template>
 
 <script>
@@ -24,27 +21,26 @@ import axios from 'axios'
 export default {
   data(){
     return{
-      login:{
+      register:{
         username: '',
-        password: ''
+        password: '',
+        name: ''
       }
     }
   },
   methods:{
-    logIn(){
-      var self= this  
-      axios.post('http://localhost:3002/login',{
-        username: self.login.username,
-        password: self.login.password
+    registers(){
+      var self = this
+      axios.post('http://localhost:3002/register',{
+        username: self.register.username,
+        password: self.register.password,
+        name: self.register.name
       })
-      .then(response =>{
-        console.log('ini token',response.data);
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('member',response.data.member)
-        this.$router.push('/home')
+      .then(response=>{
+        this.$router.push('/')
       })
       .catch(err=>{
-        console.error(err)
+        res.send(err)
       })
     }
   }
